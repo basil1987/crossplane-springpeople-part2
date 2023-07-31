@@ -349,15 +349,17 @@ CAT <<EOF | kubectl apply -f -
 apiVersion: kubernetes.crossplane.io/v1alpha1
 kind: Object
 metadata:
-  name: foo
+  name: sample-namespace
 spec:
   forProvider:
     manifest:
       apiVersion: v1
-      kind: ConfigMap
+      kind: Namespace
       metadata:
-        namespace: default
-  managementPolicy: ObserveDelete
+        # name in manifest is optional and defaults to Object name
+        # name: some-other-name
+        labels:
+          example: "true"
   providerConfigRef:
     name: kubernetes-provider
 EOF
