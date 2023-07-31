@@ -215,8 +215,8 @@ EOF
   
   *) Create provider configuration for aws provider by crossplane. 
   
-      ```
-      cat <<EOF | kubectl apply -f -
+```
+cat <<EOF | kubectl apply -f -
       apiVersion: aws.crossplane.io/v1beta1
       kind: ProviderConfig
       metadata:
@@ -228,8 +228,8 @@ EOF
             namespace: crossplane-system
             name: aws-secret
             key: creds
-      EOF
-      ```
+EOF
+```
   
   *) Create provider configuration for aws provider by Upbound.
   
