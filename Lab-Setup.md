@@ -231,7 +231,8 @@ EOF
       EOF
       ```
   
-  *) Create provider configuration for aws provider by Upbound
+  *) Create provider configuration for aws provider by Upbound.
+  
       ```
       cat <<EOF | kubectl apply -f -
       apiVersion: aws.upbound.io/v1beta1
