@@ -13,7 +13,7 @@ You need the following
 4) Crossplane installed on the cluster
 5) Install Crossplane providers - crossplane-aws-provider, upbound-aws-provider, kubernetes-provider, helm-provider
 6) Configure Crossplane providers
-7) AWS Configurations using which Crossplane can manage your aws account.
+7) Test everything.
 
 #### 1) Setting up Docker.
 
@@ -129,7 +129,7 @@ The aws-provider come with a handly list of resources and controllers to manage 
 
 The kubernetes and helm providers can be used for running applications on Kubernetes Clusters. 
 
-1) aws-provider (by Crossplane) => https://marketplace.upbound.io/providers/crossplane-contrib/provider-aws
+5.1) aws-provider (by Crossplane) => https://marketplace.upbound.io/providers/crossplane-contrib/provider-aws
 
 ```
 cat <<EOF | kubectl apply -f -
@@ -142,7 +142,7 @@ spec:
 EOF
 ```
 
-2) aws-provider (by Upbound) => https://marketplace.upbound.io/providers/upbound/provider-aws/
+5.2) aws-provider (by Upbound) => https://marketplace.upbound.io/providers/upbound/provider-aws/
 
 ```
 cat <<EOF | kubectl apply -f -
@@ -155,7 +155,7 @@ spec:
 EOF
 ```
 
-3) kubernetes provider (By Crossplane) => https://marketplace.upbound.io/providers/crossplane-contrib/provider-kubernetes
+5.3) kubernetes provider (By Crossplane) => https://marketplace.upbound.io/providers/crossplane-contrib/provider-kubernetes
 
 ```
 cat <<EOF | kubectl apply -f -
@@ -168,7 +168,7 @@ spec:
 EOF
 ```
 
-4) Helm Provider (By Crossplane) => https://marketplace.upbound.io/providers/crossplane-contrib/provider-helm/ 
+5.4) Helm Provider (By Crossplane) => https://marketplace.upbound.io/providers/crossplane-contrib/provider-helm/ 
 
 ```
 cat <<EOF | kubectl apply -f -
@@ -185,7 +185,7 @@ EOF
 #### 6) Configure Crossplane Providers.
 
 
-1) Storing AWS Credentials as secret in Kubernetes.
+6.1) Storing AWS Credentials as secret in Kubernetes.
 
   A User must create his AWS Credentials and store them as a secret in the kubernetes. Then you can create a providerConfig in Crossplane using that secret. This will configure the provider to connect to AWS.
   
@@ -209,7 +209,7 @@ EOF
   --from-file=creds=./aws_credentials.txt
   ```
 
-2) Creating provider Configurations for AWS Providers.
+6.2) Creating provider Configurations for AWS Providers.
 
   The secret created in previous steps will be referred by your provider configuration. 
   
@@ -249,7 +249,7 @@ cat <<EOF | kubectl apply -f -
 EOF
 ```
 
-3) Creating provider configurations for kubernetes and helm providers.
+6.3) Creating provider configurations for kubernetes and helm providers.
 
    ##### Kubernetes Provider in-cluster configuration
 
@@ -279,3 +279,102 @@ spec:
     source: InjectedIdentity
 EOF
 ```
+
+
+#### 7) Test Everything.
+
+7.1) AWS Provider by Crossplane 
+
+Create a bucket in your aws account using below command.
+
+```
+bucket=$(echo "upbound-bucket-"$(head -n 4096 /dev/urandom | openssl sha1 | tail -c 10))
+CAT <<EOF | kubectl apply -f -
+apiVersion: s3.aws.crossplane.io/v1beta1
+kind: Bucket
+metadata:
+  name: $bucket
+spec:
+  deletionPolicy: Delete
+  forProvider:
+    locationConstraint: us-east-1
+    objectOwnership: BucketOwnerEnforced
+    paymentConfiguration:
+      payer: BucketOwner
+    versioningConfiguration:
+      status: Enabled
+  providerConfigRef:
+    name: default
+EOF
+```
+
+7.2) AWS Provider by Upbound 
+
+Create a bucket in your aws account using below command.
+
+```
+bucket=$(echo "upbound-bucket-"$(head -n 4096 /dev/urandom | openssl sha1 | tail -c 10))
+CAT <<EOF | kubectl apply -f -
+apiVersion: s3.aws.upbound.io/v1beta1
+kind: Bucket
+metadata:
+  name: $bucket
+spec:
+  forProvider:
+    region: us-east-1
+  providerConfigRef:
+    name: default
+EOF
+```
+
+7.3) Kubernetes Provider 
+
+Create a configmap by running below command.
+
+```
+CAT <<EOF | kubectl apply -f -
+apiVersion: kubernetes.crossplane.io/v1alpha1
+kind: Object
+metadata:
+  name: foo
+spec:
+  forProvider:
+    manifest:
+      apiVersion: v1
+      kind: ConfigMap
+      metadata:
+        namespace: default
+  managementPolicy: ObserveDelete
+  providerConfigRef:
+    name: kubernetes-provider
+EOF
+```
+
+7.4) Helm Provider 
+
+Create a wordpress release 
+
+```
+CAT <<EOF | kubectl apply -f -
+apiVersion: helm.crossplane.io/v1beta1
+kind: Release
+metadata:
+  name: wordpress-example
+spec:
+  forProvider:
+    chart:
+      name: wordpress
+      repository: https://charts.bitnami.com/bitnami
+      version: 15.2.5
+    namespace: wordpress
+    set:
+      - name: param1
+        value: value2
+    values:
+      service:
+        type: ClusterIP
+  providerConfigRef:
+    name: helm-provider
+EOF
+```
+
