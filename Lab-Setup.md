@@ -216,36 +216,36 @@ The secret created in previous steps will be referred by your provider configura
     *) Create provider configuration for aws provider by crossplane. 
 
     ```
-cat <<EOF | kubectl apply -f -
-apiVersion: aws.crossplane.io/v1beta1
-kind: ProviderConfig
-metadata:
-    name: default
-spec:
-  credentials:
-    source: Secret
-    secretRef:
-      namespace: crossplane-system
-      name: aws-secret
-      key: creds
-EOF
+    cat <<EOF | kubectl apply -f -
+    apiVersion: aws.crossplane.io/v1beta1
+    kind: ProviderConfig
+    metadata:
+        name: default
+    spec:
+      credentials:
+        source: Secret
+        secretRef:
+          namespace: crossplane-system
+          name: aws-secret
+          key: creds
+    EOF
     ```
 
     *) Create provider configuration for aws provider by Upbound
     ```
-cat <<EOF | kubectl apply -f -
-apiVersion: aws.upbound.io/v1beta1
-kind: ProviderConfig
-metadata:
-    name: default
-spec:
-  credentials:
-    source: Secret
-    secretRef:
-      namespace: crossplane-system
-      name: aws-secret
-      key: creds
-EOF
+    cat <<EOF | kubectl apply -f -
+    apiVersion: aws.upbound.io/v1beta1
+    kind: ProviderConfig
+    metadata:
+        name: default
+    spec:
+      credentials:
+        source: Secret
+        secretRef:
+          namespace: crossplane-system
+          name: aws-secret
+          key: creds
+    EOF
     ```
 
 3) Creating provider configurations for kubernetes and helm providers.
