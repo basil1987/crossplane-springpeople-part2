@@ -1,0 +1,22 @@
+apiVersion: helm.crossplane.io/v1beta1
+kind: Release
+metadata:
+  name: newcluster-flux
+spec:
+# rollbackLimit: 3
+  providerConfigRef:
+    name: newcluster
+  forProvider:
+    chart:
+      name: flux2
+      repository: https://fluxcd-community.github.io/helm-charts
+      version: 2.9.0 ## To use devlopment versions, set ">0.0.0-0"
+    namespace: flux
+    values:
+      service:
+        type: ClusterIP
+    set:
+      - name: multitenancy.enabled
+        value: "False"
+  providerConfigRef:
+    name: helm-provider

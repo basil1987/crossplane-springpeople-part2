@@ -197,7 +197,6 @@ spec:
           toFieldPath: spec.forProvider.amiType
         - fromFieldPath: spec.parameters.subnetIds
           toFieldPath: spec.forProvider.subnets
-
     - name: eks-managed-nodegroup-iam-role
       base:
         apiVersion: iam.aws.crossplane.io/v1beta1
