@@ -213,7 +213,7 @@ EOF
 
   The secret created in previous steps will be referred by your provider configuration. 
   
-  *) Create provider configuration for aws provider by crossplane. 
+  ###### Create provider configuration for aws provider by crossplane. 
   
 ```
 cat <<EOF | kubectl apply -f -
@@ -231,7 +231,7 @@ cat <<EOF | kubectl apply -f -
 EOF
 ```
   
-  *) Create provider configuration for aws provider by Upbound.
+  ###### Create provider configuration for aws provider by Upbound.
   
 ```
 cat <<EOF | kubectl apply -f -
@@ -251,6 +251,31 @@ EOF
 
 3) Creating provider configurations for kubernetes and helm providers.
 
-   *) Kubernetes Provider in-cluster configuration
+   ##### Kubernetes Provider in-cluster configuration
 
-   
+```
+cat <<EOF | kubectl apply -f -
+apiVersion: kubernetes.crossplane.io/v1alpha1
+kind: ProviderConfig
+metadata:
+  name: kubernetes-provider
+spec:
+  credentials:
+    source: InjectedIdentity
+EOF
+```
+
+
+   ##### Helm Provider in-cluster configuration
+
+```
+cat <<EOF | kubectl apply -f -
+apiVersion: helm.crossplane.io/v1beta1
+kind: ProviderConfig
+metadata:
+  name: helm-provider
+spec:
+  credentials:
+    source: InjectedIdentity
+EOF
+```
