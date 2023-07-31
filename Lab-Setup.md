@@ -265,6 +265,13 @@ spec:
 EOF
 ```
 
+   Please note that the kubernetes provider runs in the namespace "crossplane-system". Make sure that the service account is given necessary permissions on the cluster (clusterAdmin in this example). Run below commands.
+
+```
+SA=$(kubectl -n crossplane-system get sa -o name | grep provider-kubernetes | sed -e 's|serviceaccount\/|crossplane-system:|g')
+kubectl create clusterrolebinding provider-kubernetes-admin-binding --clusterrole cluster-admin --serviceaccount="${SA}"
+kubectl apply -f examples/provider/config-in-cluster.yaml
+```
 
    ##### Helm Provider in-cluster configuration
 
@@ -278,6 +285,14 @@ spec:
   credentials:
     source: InjectedIdentity
 EOF
+```
+
+   Please note that the helm provider runs in the namespace "crossplane-system". Make sure that the service account is given necessary permissions on the cluster (clusterAdmin in this example). Run below commands.
+
+```
+SA=$(kubectl -n crossplane-system get sa -o name | grep provider-helm | sed -e 's|serviceaccount\/|crossplane-system:|g')
+kubectl create clusterrolebinding provider-helm-admin-binding --clusterrole cluster-admin --serviceaccount="${SA}"
+kubectl apply -f examples/provider-config/provider-config-incluster.yaml
 ```
 
 
