@@ -14,7 +14,7 @@ You need the following
 5) Crossplane providers - crossplane-aws-provider, upbound-aws-provider, kubernetes-provider, helm-provider
 6) AWS Configurations using which Crossplane can manage your aws account.
 
-1) Setting up Docker.
+#### 1) Setting up Docker.
 
 You can follow the official instructions to install Docker on the EC2 instance.=> https://docs.docker.com/engine/install/ubuntu/
 
@@ -37,7 +37,7 @@ sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin 
 ```
 
 
-2) Install k3d and create a local Kubernetes Cluster
+#### 2) Install k3d and create a local Kubernetes Cluster
 
 You can follow the documentation at https://k3d.io/
 
@@ -49,7 +49,7 @@ k3d cluster create mycluster --agents=2
 ```
 
 
-3) Install kubectl to talk to the cluster.
+#### 3) Install kubectl to talk to the cluster.
 
 You can follow the documentation at https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/
 
@@ -81,7 +81,7 @@ service docker restart
 ```
 
 
-4) Install Helm and Crossplane
+#### 4) Install Helm and Crossplane
 
 You can install crossplane by following the documentation at https://docs.crossplane.io/latest/software/install/
 
