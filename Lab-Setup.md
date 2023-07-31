@@ -187,66 +187,66 @@ EOF
 
 1) Storing AWS Credentials as secret in Kubernetes.
 
-A User must create his AWS Credentials and store them as a secret in the kubernetes. Then you can create a providerConfig in Crossplane using that secret. This will configure the provider to connect to AWS.
-
-Login to your AWS Account > Go to IAM > Select the User > Click on "Security Credentials" > Click on "Create Access Key" under "Access keys". > Select "Command Line Interface (CLI)" and NEXT > Create Access Key.
-
-Now copy those credentials somewhere. You need to save these credentials as a secret in kubernetes. Create a file with name "aws_credentials.txt" on your EC2 instance with following content.
-
-```
-[default]
-aws_access_key_id=YOUR_ACCESS_KEY
-aws_secret_access_key=YOUR_SECRET_KEY
-region=ap-northeast-1
-```
-
-Now save this file inside Kubernetes as a secret named "aws-secret" under key "creds". Run below command 
-
-```
-kubectl create secret \
-generic aws-secret \
--n crossplane-system \
---from-file=creds=./aws_credentials.txt
-```
+  A User must create his AWS Credentials and store them as a secret in the kubernetes. Then you can create a providerConfig in Crossplane using that secret. This will configure the provider to connect to AWS.
+  
+  Login to your AWS Account > Go to IAM > Select the User > Click on "Security Credentials" > Click on "Create Access Key" under "Access keys". > Select "Command Line Interface (CLI)" and NEXT > Create Access Key.
+  
+  Now copy those credentials somewhere. You need to save these credentials as a secret in kubernetes. Create a file with name "aws_credentials.txt" on your EC2 instance with following content.
+  
+  ```
+  [default]
+  aws_access_key_id=YOUR_ACCESS_KEY
+  aws_secret_access_key=YOUR_SECRET_KEY
+  region=ap-northeast-1
+  ```
+  
+  Now save this file inside Kubernetes as a secret named "aws-secret" under key "creds". Run below command 
+  
+  ```
+  kubectl create secret \
+  generic aws-secret \
+  -n crossplane-system \
+  --from-file=creds=./aws_credentials.txt
+  ```
 
 2) Creating provider Configurations for AWS Providers.
 
-The secret created in previous steps will be referred by your provider configuration. 
-
-    *) Create provider configuration for aws provider by crossplane. 
-
-    ```
-    cat <<EOF | kubectl apply -f -
-    apiVersion: aws.crossplane.io/v1beta1
-    kind: ProviderConfig
-    metadata:
-        name: default
-    spec:
-      credentials:
-        source: Secret
-        secretRef:
-          namespace: crossplane-system
-          name: aws-secret
-          key: creds
-    EOF
-    ```
-
-    *) Create provider configuration for aws provider by Upbound
-    ```
-    cat <<EOF | kubectl apply -f -
-    apiVersion: aws.upbound.io/v1beta1
-    kind: ProviderConfig
-    metadata:
-        name: default
-    spec:
-      credentials:
-        source: Secret
-        secretRef:
-          namespace: crossplane-system
-          name: aws-secret
-          key: creds
-    EOF
-    ```
+  The secret created in previous steps will be referred by your provider configuration. 
+  
+  *) Create provider configuration for aws provider by crossplane. 
+  
+      ```
+      cat <<EOF | kubectl apply -f -
+      apiVersion: aws.crossplane.io/v1beta1
+      kind: ProviderConfig
+      metadata:
+          name: default
+      spec:
+        credentials:
+          source: Secret
+          secretRef:
+            namespace: crossplane-system
+            name: aws-secret
+            key: creds
+      EOF
+      ```
+  
+  *) Create provider configuration for aws provider by Upbound
+      ```
+      cat <<EOF | kubectl apply -f -
+      apiVersion: aws.upbound.io/v1beta1
+      kind: ProviderConfig
+      metadata:
+          name: default
+      spec:
+        credentials:
+          source: Secret
+          secretRef:
+            namespace: crossplane-system
+            name: aws-secret
+            key: creds
+      EOF
+      ```
 
 3) Creating provider configurations for kubernetes and helm providers.
 
