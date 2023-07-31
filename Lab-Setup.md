@@ -233,8 +233,8 @@ EOF
   
   *) Create provider configuration for aws provider by Upbound.
   
-      ```
-      cat <<EOF | kubectl apply -f -
+```
+cat <<EOF | kubectl apply -f -
       apiVersion: aws.upbound.io/v1beta1
       kind: ProviderConfig
       metadata:
@@ -246,8 +246,8 @@ EOF
             namespace: crossplane-system
             name: aws-secret
             key: creds
-      EOF
-      ```
+EOF
+```
 
 3) Creating provider configurations for kubernetes and helm providers.
 
