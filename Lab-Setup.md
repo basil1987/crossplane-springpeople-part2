@@ -378,3 +378,9 @@ spec:
 EOF
 ```
 
+Wait for sometime and run below command to confirm that READY=True 
+
+```
+kubectl get managed
+```
+
