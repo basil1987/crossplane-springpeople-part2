@@ -11,8 +11,9 @@ You need the following
 2) K3D to setup a local kubernetes cluster
 3) kubectl to talk to the cluster
 4) Crossplane installed on the cluster
-5) Crossplane providers - crossplane-aws-provider, upbound-aws-provider, kubernetes-provider, helm-provider
-6) AWS Configurations using which Crossplane can manage your aws account.
+5) Install Crossplane providers - crossplane-aws-provider, upbound-aws-provider, kubernetes-provider, helm-provider
+6) Configure Crossplane providers
+7) AWS Configurations using which Crossplane can manage your aws account.
 
 #### 1) Setting up Docker.
 
@@ -113,5 +114,74 @@ crossplane-rbac-manager   1/1     1            1           20s
 crossplane                1/1     1            1           20s
 root@ip-172-31-37-108:~#
 ```
+
+
+#### 5) Install Crossplane Providers.
+
+We will be using following providers. 
+
+aws-provider (by Crossplane)
+aws-provider (by Upbound)
+kubernetes-provider
+helm-provider 
+
+The aws-provider come with a handly list of resources and controllers to manage resources in your aws account. 
+
+The kubernetes and helm providers can be used for running applications on Kubernetes Clusters. 
+
+1) aws-provider (by Crossplane) => https://marketplace.upbound.io/providers/crossplane-contrib/provider-aws
+
+```
+cat <<EOF | kubectl apply -f -
+apiVersion: pkg.crossplane.io/v1
+kind: Provider
+metadata:
+  name: provider-aws
+spec:
+  package: xpkg.upbound.io/crossplane-contrib/provider-aws:v0.42.0
+EOF
+```
+
+2) aws-provider (by Upbound) => https://marketplace.upbound.io/providers/upbound/provider-aws/
+
+```
+cat <<EOF | kubectl apply -f -
+apiVersion: pkg.crossplane.io/v1
+kind: Provider
+metadata:
+  name: provider-aws
+spec:
+  package: xpkg.upbound.io/upbound/provider-aws:v0.37.0
+EOF
+```
+
+3) kubernetes provider (By Crossplane) => https://marketplace.upbound.io/providers/crossplane-contrib/provider-kubernetes
+
+```
+cat <<EOF | kubectl apply -f -
+apiVersion: pkg.crossplane.io/v1
+kind: Provider
+metadata:
+  name: provider-kubernetes
+spec:
+  package: xpkg.upbound.io/crossplane-contrib/provider-kubernetes:v0.9.0
+EOF
+```
+
+4) Helm Provider (By Crossplane) => https://marketplace.upbound.io/providers/crossplane-contrib/provider-helm/ 
+
+```
+cat <<EOF | kubectl apply -f -
+apiVersion: pkg.crossplane.io/v1
+kind: Provider
+metadata:
+  name: provider-helm
+spec:
+  package: xpkg.upbound.io/crossplane-contrib/provider-helm:v0.15.0
+EOF
+```
+
+
+#### 6) Configure Crossplane Providers.
 
 
