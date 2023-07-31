@@ -66,3 +66,11 @@ Now run below command to verify the installation
 ```
 kubectl get pods
 ```
+
+You should see an output that looks like
+
+```
+root@ip-172-31-37-108:~# kubectl get pods
+No resources found in default namespace.
+root@ip-172-31-37-108:~#
+```
