@@ -74,3 +74,45 @@ root@ip-172-31-37-108:~# kubectl get pods
 No resources found in default namespace.
 root@ip-172-31-37-108:~#
 ```
+
+If you get any warnings for "metrics.k8s.io/v1beta1" when running "kubectl get pods" command, restart docker.
+
+```
+service docker restart
+```
+
+
+4) Install Helm and Crossplane
+
+You can install crossplane by following the documentation at https://docs.crossplane.io/latest/software/install/
+
+Helm must be installed first. A documentation for the same is here => https://helm.sh/docs/intro/install/
+
+A handy set of commands are below.
+
+```
+# Install Helm
+curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
+chmod 700 get_helm.sh
+./get_helm.sh
+
+# Install Crossplane
+helm repo add crossplane-stable https://charts.crossplane.io/stable
+helm repo update
+
+helm install crossplane \
+--namespace crossplane-system \
+--create-namespace crossplane-stable/crossplane
+```
+
+Verify the crossplane installation by running below command. A sample output is also given below
+
+```
+root@ip-172-31-37-108:~# kubectl get deployments -n crossplane-system
+NAME                      READY   UP-TO-DATE   AVAILABLE   AGE
+crossplane-rbac-manager   1/1     1            1           20s
+crossplane                1/1     1            1           20s
+root@ip-172-31-37-108:~#
+```
+
+
