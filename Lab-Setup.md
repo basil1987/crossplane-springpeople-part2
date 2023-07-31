@@ -136,7 +136,7 @@ cat <<EOF | kubectl apply -f -
 apiVersion: pkg.crossplane.io/v1
 kind: Provider
 metadata:
-  name: provider-aws
+  name: provider-aws-crossplane
 spec:
   package: xpkg.upbound.io/crossplane-contrib/provider-aws:v0.42.0
 EOF
@@ -149,7 +149,7 @@ cat <<EOF | kubectl apply -f -
 apiVersion: pkg.crossplane.io/v1
 kind: Provider
 metadata:
-  name: provider-aws
+  name: provider-aws-upbound
 spec:
   package: xpkg.upbound.io/upbound/provider-aws:v0.37.0
 EOF
