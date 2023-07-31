@@ -12,8 +12,7 @@ You need the following
 3) kubectl to talk to the cluster
 4) Crossplane installed on the cluster
 5) Crossplane providers - crossplane-aws-provider, upbound-aws-provider, kubernetes-provider, helm-provider
-6) AWS Configurations using which Crossplane can manage your aws account
-
+6) AWS Configurations using which Crossplane can manage your aws account.
 
 1) Setting up Docker.
 
