@@ -86,7 +86,7 @@ spec:
           transforms:
             - type: string
               string:
-                fmt: "%sb"
+                fmt: "%sd"
         - fromFieldPath: spec.resourceConfig.region
           toFieldPath: spec.parameters.publicSubnet3-availabilityZone
           transforms:
@@ -104,7 +104,7 @@ spec:
           transforms:
             - type: string
               string:
-                fmt: "%sb"
+                fmt: "%sd"
         - fromFieldPath: spec.resourceConfig.region
           toFieldPath: spec.parameters.privateSubnet3-availabilityZone
           transforms:
