@@ -310,7 +310,7 @@ metadata:
 spec:
   deletionPolicy: Delete
   forProvider:
-    locationConstraint: us-east-1
+    locationConstraint: ap-northeast-1
     objectOwnership: BucketOwnerEnforced
     paymentConfiguration:
       payer: BucketOwner
@@ -334,7 +334,7 @@ metadata:
   name: $bucket
 spec:
   forProvider:
-    region: us-east-1
+    region: ap-northeast-1
   providerConfigRef:
     name: default
 EOF
