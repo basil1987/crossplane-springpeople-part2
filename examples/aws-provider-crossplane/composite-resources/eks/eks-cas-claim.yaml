@@ -27,7 +27,7 @@ spec:
       service: eks-cas
   resourceConfig:
     providerConfigName: aws-provider-config
-    region: us-west-2
+    region: ap-northeast-1
   parameters:
     # This field tells which role should have admin access to this cluster.
     adminRole: Admin
