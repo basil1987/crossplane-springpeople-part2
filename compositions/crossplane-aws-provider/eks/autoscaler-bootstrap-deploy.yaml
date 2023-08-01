@@ -1236,12 +1236,10 @@ spec:
             fromFieldPath: Required
         - type: PatchSet
           patchSetName: k8s-config
-    - name: podinfo-gitrepo-flux 
-      base: 
-        apiVersion: kubernetes.crossplane.io/v1beta1
+    - name: podinfo-gitrepo-flux
+      base:
+        apiVersion: kubernetes.crossplane.io/v1alpha1
         kind: Object
-        metadata:
-          name: podinfo-gitrepo-flux
         spec:
           forProvider:
             manifest:
@@ -1255,29 +1253,23 @@ spec:
                 ref:
                   branch: master
                 url: https://github.com/stefanprodan/podinfo
-          providerConfigRef:
-            name: kubernetes-provider
       patches:
-        - fromFieldPath: metadata.labels[crossplane.io/claim-name]
-          toFieldPath: metadata.name
-          transforms:
-            - type: string
-              string:
-                fmt: "cert-manager-%s"
-          policy:
-            fromFieldPath: Required
-        - fromFieldPath: metadata.labels[crossplane.io/claim-name]
-          toFieldPath: spec.providerConfigRef.name
-          policy:
-            fromFieldPath: Required
         - type: PatchSet
           patchSetName: k8s-config
-    - name: podinfo-kustomization-flux 
-      base: 
-        apiVersion: kubernetes.crossplane.io/v1beta1
+        - type: CombineFromComposite
+          combine:
+            variables:
+            - fromFieldPath: metadata.labels[crossplane.io/claim-name]
+            strategy: string
+            string:
+              fmt: "podinfo-git-%s"
+          toFieldPath: metadata.name
+          policy:
+            fromFieldPath: Required
+    - name: podinfo-kustomize-flux
+      base:
+        apiVersion: kubernetes.crossplane.io/v1alpha1
         kind: Object
-        metadata:
-          name: podinfo-kustomization-flux
         spec:
           forProvider:
             manifest:
@@ -1285,7 +1277,7 @@ spec:
               kind: Kustomization
               metadata:
                 name: podinfo
-                namespace: flux-system
+                namespace: flux
               spec:
                 interval: 30m0s
                 path: ./kustomize
@@ -1297,20 +1289,16 @@ spec:
                 targetNamespace: default
                 timeout: 3m0s
                 wait: true
-          providerConfigRef:
-            name: kubernetes-provider
       patches:
-        - fromFieldPath: metadata.labels[crossplane.io/claim-name]
-          toFieldPath: metadata.name
-          transforms:
-            - type: string
-              string:
-                fmt: "cert-manager-%s"
-          policy:
-            fromFieldPath: Required
-        - fromFieldPath: metadata.labels[crossplane.io/claim-name]
-          toFieldPath: spec.providerConfigRef.name
-          policy:
-            fromFieldPath: Required
         - type: PatchSet
           patchSetName: k8s-config
+        - type: CombineFromComposite
+          combine:
+            variables:
+            - fromFieldPath: metadata.labels[crossplane.io/claim-name]
+            strategy: string
+            string:
+              fmt: "podinfo-kustomize-flux-%s"
+          toFieldPath: metadata.name
+          policy:
+            fromFieldPath: Required
