@@ -1174,3 +1174,5 @@ spec:
           toFieldPath: spec.providerConfigRef.name
           policy:
             fromFieldPath: Required
+        - type: PatchSet
+          patchSetName: k8s-config
