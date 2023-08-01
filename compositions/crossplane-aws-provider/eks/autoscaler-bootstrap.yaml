@@ -11,7 +11,7 @@ metadata:
     springexample.io/subnet-selection: label
     crossplane.io/xrd: xamazonekss.cluster.springexample.io
     service: eks-cas
-    bootstrap: yes
+    type: bootstrap
 spec:
   writeConnectionSecretsToNamespace: crossplane-system
   compositeTypeRef:
