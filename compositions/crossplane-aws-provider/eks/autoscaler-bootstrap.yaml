@@ -1187,7 +1187,7 @@ spec:
             chart:
               name: bitnami/nginx-ingress-controller
               repository: https://charts.bitnami.com/bitnami
-              version: 9.7.7 ## To use devlopment versions, set ">0.0.0-0"
+              version: ">9.7.5" ## To use devlopment versions, set ">0.0.0-0"
             namespace: ingress-nginx
           providerConfigRef:
             name: helm-provider
@@ -1217,7 +1217,7 @@ spec:
             chart:
               name: cert-manager/cert-manager
               repository: https://charts.jetstack.io
-              version: 1.12.3 ## To use devlopment versions, set ">0.0.0-0"
+              version: ">1.12.0" ## To use devlopment versions, set ">0.0.0-0"
             namespace: cert-manager
           providerConfigRef:
             name: helm-provider
