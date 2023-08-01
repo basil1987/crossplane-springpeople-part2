@@ -1176,3 +1176,63 @@ spec:
             fromFieldPath: Required
         - type: PatchSet
           patchSetName: k8s-config
+    - name: ingress-controller-deployment 
+      base: 
+        apiVersion: helm.crossplane.io/v1beta1
+        kind: Release
+        metadata:
+          name: ingress-deployment
+        spec:
+          forProvider:
+            chart:
+              name: bitnami/nginx-ingress-controller
+              repository: https://charts.bitnami.com/bitnami
+              version: 9.7.7 ## To use devlopment versions, set ">0.0.0-0"
+            namespace: ingress-nginx
+          providerConfigRef:
+            name: helm-provider
+      patches:
+        - fromFieldPath: metadata.labels[crossplane.io/claim-name]
+          toFieldPath: metadata.name
+          transforms:
+            - type: string
+              string:
+                fmt: "ingress-%s"
+          policy:
+            fromFieldPath: Required
+        - fromFieldPath: metadata.labels[crossplane.io/claim-name]
+          toFieldPath: spec.providerConfigRef.name
+          policy:
+            fromFieldPath: Required
+        - type: PatchSet
+          patchSetName: k8s-config
+    - name: cert-manager-deployment 
+      base: 
+        apiVersion: helm.crossplane.io/v1beta1
+        kind: Release
+        metadata:
+          name: cert-manager-deployment
+        spec:
+          forProvider:
+            chart:
+              name: cert-manager/cert-manager
+              repository: https://charts.jetstack.io
+              version: 1.12.3 ## To use devlopment versions, set ">0.0.0-0"
+            namespace: cert-manager
+          providerConfigRef:
+            name: helm-provider
+      patches:
+        - fromFieldPath: metadata.labels[crossplane.io/claim-name]
+          toFieldPath: metadata.name
+          transforms:
+            - type: string
+              string:
+                fmt: "cert-manager-%s"
+          policy:
+            fromFieldPath: Required
+        - fromFieldPath: metadata.labels[crossplane.io/claim-name]
+          toFieldPath: spec.providerConfigRef.name
+          policy:
+            fromFieldPath: Required
+        - type: PatchSet
+          patchSetName: k8s-config
