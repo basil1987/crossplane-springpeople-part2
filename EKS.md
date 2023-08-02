@@ -92,3 +92,23 @@ cd examples/aws-provider-crossplane/composite-resources/eks
 kubectl apply -f eks-claim.yaml
 ```
 
+Run this command and wait for READY=True which may take 15 to 20 minutes. 
+
+```
+kubectl get composite
+```
+
+
+6) Delete the claim and XR for EKS
+
+```
+cd 
+cd crossplane-springpeople-part2
+git pull
+cd examples/aws-provider-crossplane/composite-resources/eks
+kubectl delete -f eks-claim.yaml
+```
+
+It may take some time for the cluster to completely delete. 
+
+
