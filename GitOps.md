@@ -138,3 +138,53 @@ spec:
 EOF
 ```
 
+Now flux will create the compositions by reading from GitHub. Verify that all the compositions are created in your cluster by running.
+
+```
+kubectl get compositions
+```
+
+Now flux is watching your gitrepo for any changes in eks compositions, and sync them automatically. 
+
+
+#### 3) Test the flux CD in action. 
+
+Make some changes in the compositions and save them in Git. And verify flux is reconsiling the changes with your cluster. 
+
+Add a line "deletionPolicy: Orphan" in the line number 270 of file compositions/crossplane-aws-provider/eks/eks-managed-node-group.yaml . Save the file in GitHub. Wait for a minute and verify that the change got synced.
+
+
+```
+kubectl get compositions xamazonekss.cluster.springexample.io -o yaml
+```
+
+You will see the changes are in sync with the cluster !!
+
+
+
+## Applying GitOps to your Composite Resources (XRs). 
+
+You can configure the same GitOps practices for your XR claims. 
+
+#### 1) Create Kustomization for your EKS claim. 
+
+```
+cat <<EOF | kubectl apply -f -
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: eks-claim
+  namespace: flux-system
+spec:
+  interval: 1m0s
+  path: ./examples/aws-provider-crossplane/composite-resources/eks
+  prune: true
+  retryInterval: 1m0s
+  sourceRef:
+    kind: GitRepository
+    name: crossplane-repo
+  targetNamespace: default
+  timeout: 3m0s
+  wait: true
+EOF
+```
