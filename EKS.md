@@ -43,8 +43,9 @@ kubectl delete -f vpc-subnets-claim.yaml
 
 
 ```
-git clone https://github.com/basil1987/crossplane-springpeople-part2.git
+cd
 cd crossplane-springpeople-part2
+git pull
 cd compositions/crossplane-aws-provider/eks
 kubectl apply -f definition.yaml
 kubectl apply -f eks-managed-node-group.yaml
