@@ -67,7 +67,27 @@ EOF
 
 #### 3) Verify the podinfo app running. 
 
+Flux will deploy the podinfo app into the default namespace. Verify by running below command.
+
 ```
 kubectl get all
 ```
+
+#### 4) Changing Desired State. 
+
+Go to the repository and make any changes in the https://github.com/basil1987/podinfo repository under "kustomize" folder.
+
+For example, change the image version from 6.3.4 to 6.4.0 
+
+Flux is watching your changes in GitHub and apply the settings to the cluster automatically. 
+
+After one minute, try running below command to check the image version in the cluster.
+
+```
+kubectl get deployments podinfo -o yaml |grep image:
+```
+
+You should see the version has changed to 6.4.0
+
+
 
