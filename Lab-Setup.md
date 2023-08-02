@@ -310,7 +310,7 @@ Create a bucket in your aws account using below command.
 
 ```
 bucket=$(echo "upbound-bucket-"$(head -n 4096 /dev/urandom | openssl sha1 | tail -c 10))
-CAT <<EOF | kubectl apply -f -
+cat <<EOF | kubectl apply -f -
 apiVersion: s3.aws.crossplane.io/v1beta1
 kind: Bucket
 metadata:
