@@ -37,6 +37,14 @@ sudo apt-get update
 sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 ```
 
+After docker is installed, add the user ubuntu to the docker group
+
+```
+sudo adduser ubuntu docker
+logout
+```
+
+Now you can login back again to the EC2 instance.
 
 #### 2) Install k3d and create a local Kubernetes Cluster
 
