@@ -108,7 +108,7 @@ metadata:
 spec:
   interval: 1m
   ref:
-    branch: master
+    branch: main
   url: https://github.com/basil1987/crossplane-springpeople-part2
 EOF
 ```
