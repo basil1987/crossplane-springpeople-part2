@@ -273,6 +273,7 @@ spec:
         apiVersion: iam.aws.crossplane.io/v1beta1
         kind: RolePolicyAttachment
         spec:
+          deletionPolicy: Orphan
           forProvider:
             policyArn: arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy
             roleNameSelector:
