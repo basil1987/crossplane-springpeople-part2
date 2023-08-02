@@ -39,3 +39,15 @@ cd examples/aws-provider-crossplane/composite-resources/vpc-subnets
 kubectl delete -f vpc-subnets-claim.yaml
 ```
 
+4) Create the EKS compositions.
+
+
+```
+git clone https://github.com/basil1987/crossplane-springpeople-part2.git
+cd crossplane-springpeople-part2
+cd compositions/crossplane-aws-provider/eks
+kubectl apply -f definition.yaml
+kubectl apply -f eks-managed-node-group.yaml
+kubectl apply -f eks-managed-node-group-subnet-labels.yaml
+kubectl apply -f autoscaler.yaml
+```
