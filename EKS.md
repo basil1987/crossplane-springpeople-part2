@@ -121,5 +121,5 @@ cd
 cd crossplane-springpeople-part2
 git pull
 cd examples/aws-provider-crossplane/composite-resources/eks
-kubectl apply -f 
+kubectl apply -f eks-cas-claim.yaml
 ```
