@@ -28,3 +28,14 @@ Wait for sometime and XR will be ready. To verify
 ```
 kubectl get composite
 ```
+
+3) Delete the claim and XR
+
+```
+cd 
+cd crossplane-springpeople-part2
+git pull
+cd examples/aws-provider-crossplane/composite-resources/vpc-subnets
+kubectl delete -f vpc-subnets-claim.yaml
+```
+
