@@ -112,3 +112,14 @@ kubectl delete -f eks-claim.yaml
 It may take some time for the cluster to completely delete. 
 
 
+
+7) Create an EKS Autoscaler claim
+
+
+```
+cd 
+cd crossplane-springpeople-part2
+git pull
+cd examples/aws-provider-crossplane/composite-resources/eks
+kubectl apply -f 
+```
