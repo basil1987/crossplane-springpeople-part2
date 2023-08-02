@@ -38,7 +38,7 @@ spec:
   interval: 1m
   ref:
     branch: master
-  url: https://github.com/stefanprodan/podinfo
+  url: https://github.com/basil1987/podinfo
 EOF
 ```
 
