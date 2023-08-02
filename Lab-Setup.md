@@ -335,7 +335,7 @@ Create a bucket in your aws account using below command.
 
 ```
 bucket=$(echo "upbound-bucket-"$(head -n 4096 /dev/urandom | openssl sha1 | tail -c 10))
-CAT <<EOF | kubectl apply -f -
+cat <<EOF | kubectl apply -f -
 apiVersion: s3.aws.upbound.io/v1beta1
 kind: Bucket
 metadata:
@@ -353,7 +353,7 @@ EOF
 Create a configmap by running below command.
 
 ```
-CAT <<EOF | kubectl apply -f -
+cat <<EOF | kubectl apply -f -
 apiVersion: kubernetes.crossplane.io/v1alpha1
 kind: Object
 metadata:
@@ -378,7 +378,7 @@ EOF
 Create a wordpress release 
 
 ```
-CAT <<EOF | kubectl apply -f -
+cat <<EOF | kubectl apply -f -
 apiVersion: helm.crossplane.io/v1beta1
 kind: Release
 metadata:
