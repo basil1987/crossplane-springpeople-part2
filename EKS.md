@@ -7,7 +7,7 @@
 ```
 git clone https://github.com/basil1987/crossplane-springpeople-part2.git
 cd crossplane-springpeople-part2
-cd crossplane-aws-provider/vpc-subnets
+cd compositions/crossplane-aws-provider/vpc-subnets
 kubectl apply -f .
 ```
 
