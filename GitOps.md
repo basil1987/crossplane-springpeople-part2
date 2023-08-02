@@ -91,3 +91,50 @@ You should see the version has changed to 6.4.0
 
 
 
+## Applying GitOps to your compositions. 
+
+You just implemented GitOps for your application deployment, lets do the same for your compositions.
+
+
+#### 1) Add your compositions repository as a GitRepository in flux.
+
+```
+cat <<EOF | kubectl apply -f -
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: GitRepository
+metadata:
+  name: crossplane-repo
+  namespace: flux-system
+spec:
+  interval: 1m
+  ref:
+    branch: master
+  url: https://github.com/basil1987/crossplane-springpeople-part2
+EOF
+```
+
+
+
+#### 2) Create a kustomization for your EKS compositions. 
+
+```
+cat <<EOF | kubectl apply -f -
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: eks-compositions
+  namespace: flux-system
+spec:
+  interval: 1m0s
+  path: ./compositions/crossplane-aws-provider/eks
+  prune: true
+  retryInterval: 1m0s
+  sourceRef:
+    kind: GitRepository
+    name: crossplane-repo
+  targetNamespace: default
+  timeout: 3m0s
+  wait: true
+EOF
+```
+
