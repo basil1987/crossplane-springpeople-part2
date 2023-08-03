@@ -173,11 +173,11 @@ cat <<EOF | kubectl apply -f -
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: eks-claim
+  name: vpc-claim
   namespace: flux-system
 spec:
   interval: 1m0s
-  path: ./examples/aws-provider-crossplane/composite-resources/eks
+  path: ./examples/aws-provider-crossplane/composite-resources/vpc-subnets
   prune: true
   retryInterval: 1m0s
   sourceRef:
