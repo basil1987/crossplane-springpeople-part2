@@ -1139,7 +1139,7 @@ spec:
             - type: string
               string:
                 fmt: "--node-group-auto-discovery=asg:tag=k8s.io/cluster-autoscaler/enabled,k8s.io/cluster-autoscaler/%s"
-
+    # Installing the necessary components 
     - name: flux-deployment 
       base: 
         apiVersion: helm.crossplane.io/v1beta1
@@ -1236,3 +1236,70 @@ spec:
             fromFieldPath: Required
         - type: PatchSet
           patchSetName: k8s-config
+    # Configure flux to deploy my podinfo application in GitOps way 
+    - name: podinfo-gitrepo-flux
+      base:
+        apiVersion: kubernetes.crossplane.io/v1alpha1
+        kind: Object
+        spec:
+          forProvider:
+            manifest:
+              apiVersion: source.toolkit.fluxcd.io/v1
+              kind: GitRepository
+              metadata:
+                name: podinfo
+                namespace: flux
+              spec:
+                interval: 1m
+                ref:
+                  branch: master
+                url: https://github.com/stefanprodan/podinfo
+      patches:
+        - type: PatchSet
+          patchSetName: k8s-config
+        - type: CombineFromComposite
+          combine:
+            variables:
+            - fromFieldPath: metadata.labels[crossplane.io/claim-name]
+            strategy: string
+            string:
+              fmt: "podinfo-git-%s"
+          toFieldPath: metadata.name
+          policy:
+            fromFieldPath: Required
+    - name: podinfo-kustomize-flux
+      base:
+        apiVersion: kubernetes.crossplane.io/v1alpha1
+        kind: Object
+        spec:
+          forProvider:
+            manifest:
+              apiVersion: kustomize.toolkit.fluxcd.io/v1
+              kind: Kustomization
+              metadata:
+                name: podinfo
+                namespace: flux
+              spec:
+                interval: 30m0s
+                path: ./kustomize
+                prune: true
+                retryInterval: 2m0s
+                sourceRef:
+                  kind: GitRepository
+                  name: podinfo
+                targetNamespace: default
+                timeout: 3m0s
+                wait: true
+      patches:
+        - type: PatchSet
+          patchSetName: k8s-config
+        - type: CombineFromComposite
+          combine:
+            variables:
+            - fromFieldPath: metadata.labels[crossplane.io/claim-name]
+            strategy: string
+            string:
+              fmt: "podinfo-kustomize-flux-%s"
+          toFieldPath: metadata.name
+          policy:
+            fromFieldPath: Required
