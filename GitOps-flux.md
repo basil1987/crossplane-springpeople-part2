@@ -192,7 +192,7 @@ EOF
 Wait for a minute and confirm that the claim is created.
 
 ```
-kubectl get amazonEks.cluster.springexample.io
+kubectl get vpcSubnet.network.springexample.io
 ```
 
 #### 2) Change some settings in the XR
