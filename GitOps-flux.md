@@ -198,28 +198,20 @@ kubectl get vpcSubnet.network.springexample.io
 #### 2) Change some settings in the XR
 
 
-Modify the claim examples/aws-provider-crossplane/composite-resources/eks/eks-cas-claim.yaml and set the below values under "spec".
-
-```
-  managedNodeGroups:
-    minSize: 1
-    maxSize: 3
-```
-
+Modify the claim examples/aws-provider-crossplane/composite-resources/vpc-subnets/vpc-subnets-claim.yaml and set the value "parameters.vpc-enableDnsSupport" to "false".
 Save the file and push to Git. 
 
 Wait for a minute and verify that your XR is modified by running
 
 ```
-kubectl get amazonEks.cluster.springexample.io -o yaml | egrep 'minSize|maxSize'
+kubectl get vpcSubnet.network.springexample.io -o yaml | grep vpc-enableDnsSupport
 ```
 
 Output should look like.
 
 ```
-ubuntu@ip-172-31-0-242:~$ kubectl get amazonEks.cluster.springexample.io -o yaml | egrep 'minSize|maxSize'
-      maxSize: 3
-      minSize: 2
+ubuntu@ip-172-31-0-242:~$ kubectl get vpcSubnet.network.springexample.io -o yaml | grep vpc-enableDnsSupport
+      vpc-enableDnsSupport: false
 ubuntu@ip-172-31-0-242:~$
 ```
 
