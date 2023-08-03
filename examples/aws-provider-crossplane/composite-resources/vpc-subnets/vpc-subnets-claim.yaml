@@ -34,6 +34,7 @@ spec:
     vpc-Name: myapp-vpc
     vpc-cidrBlock: "10.20.0.0/17"   # 32768 IPs
     vpc-amazonProvidedIpv6CidrBlock: false
+    vpc-enableDnsSupport: false
     #public subnet1
     publicSubnet1-cidrBlock: "10.20.0.0/21" # 2048 IPs
     publicSubnet1-availabilityZone: ap-northeast-1a
