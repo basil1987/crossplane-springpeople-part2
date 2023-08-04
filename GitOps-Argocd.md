@@ -44,3 +44,15 @@ spec:
     automated: {}
 EOF
 ```
+
+
+Verify that argocddeployed your guesbook application by running.
+
+
+```
+kubectl get all -n guestbook
+```
+
+You will see a pod, a deployment and a service in the output.
+
+
