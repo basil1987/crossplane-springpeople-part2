@@ -23,6 +23,7 @@ Create a namespace
 kubectl create namespace guestbook
 ```
 
+Create Argocd application for Guestbook
 ```
 cat <<EOF | kubectl apply -f -
 apiVersion: argoproj.io/v1alpha1
