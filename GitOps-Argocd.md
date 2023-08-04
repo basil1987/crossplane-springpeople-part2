@@ -34,5 +34,7 @@ spec:
   destination:
     server: https://kubernetes.default.svc
     namespace: guestbook
+  syncPolicy:
+    automated: {}
 EOF
 ```
