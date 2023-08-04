@@ -17,6 +17,11 @@ rm argocd-linux-amd64
 
 #### Create a sample application
 
+Create a namespace
+
+```
+kubectl create namespace guestbook
+```
 
 ```
 cat <<EOF | kubectl apply -f -
